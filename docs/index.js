@@ -29,11 +29,12 @@ function report() {
   console.log(total / iterations);
 }
 function testCopy() {
-  const view = new Uint8Array(1000000);
+  const length = 10000;
+  const view = new Uint8Array(length);
   for (let elem of view) {
     elem = Math.random() * 255;
   }
-  const view2 = new Uint8Array(1000000);
+  const view2 = new Uint8Array(length);
   const start = self.performance.now();
   view2.set(view);
   const end = self.performance.now();
