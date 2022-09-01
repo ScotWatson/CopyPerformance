@@ -21,7 +21,7 @@ function start( [ evtWindow ] ) {
 }
 function report() {
   let total = 0;
-  const iterations = 1000;
+  const iterations = 100;
   for (let i = 0; i < iterations; ++i) {
     const runtime = testCopy();
     total += runtime;
