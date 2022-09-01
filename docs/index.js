@@ -28,7 +28,7 @@ function start( [ evtWindow ] ) {
 }
 function report() {
   let total = 0;
-  const iterations = 100;
+  const iterations = 50;
   let makeViewsTotal = 0;
   let fillRandomTotal = 0;
   let copyViewTotal = 0;
