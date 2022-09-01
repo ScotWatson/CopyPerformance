@@ -16,7 +16,9 @@ function fail(e) {
   console.error(e);
 }
 
+
 let avg = 0;
+const samples = new Array(10);
 
 function start( [ evtWindow ] ) {
   setInterval(report, 1000);
@@ -28,8 +30,16 @@ function report() {
     const runtime = testCopy();
     total += runtime;
   }
-  avg = 0.9 * avg + 0.1 * (total / iterations);
-  console.log(avg, "ms");
+  for (let i = 0; i < 9; ++i) {
+    samples[i + 1] = samples[i];
+  }
+  samples[0] = (total / iterations);
+  avg = 0;
+  for (const sample of samples) {
+    avg += sample;
+  }
+  avg /= 10;
+  console.log(avg, "ms", samples[0], "ms");
 }
 function testCopy() {
   const length = 1000000;
