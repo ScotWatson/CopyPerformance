@@ -37,7 +37,6 @@ function report() {
     makeViewsTotal += runtimes.makeViews;
     fillRandomTotal += runtimes.fillRandom;
     copyViewTotal += runtimes.copyView;
-    total += runtime;
   }
   makeViewsAvg = (1 - timeConstant) * makeViewsAvg + timeConstant * (makeViewsTotal / iterations);
   fillRandomAvg = (1 - timeConstant) * fillRandomAvg + timeConstant * (fillRandomTotal / iterations);
