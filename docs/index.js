@@ -30,7 +30,7 @@ function report() {
 }
 function testCopy() {
   const view = new Uint8Array(1000000);
-  for (const elem of view) {
+  for (let elem of view) {
     elem = Math.random() * 255;
   }
   const view2 = new Uint8Array(1000000);
