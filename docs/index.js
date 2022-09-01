@@ -28,8 +28,8 @@ function report() {
     const runtime = testCopy();
     total += runtime;
   }
-  console.log((total / iterations), "ms");
   avg = 0.9 * avg + 0.1 * (total / iterations);
+  console.log(avg, "ms");
 }
 function testCopy() {
   const length = 1000000;
