@@ -26,10 +26,10 @@ function report() {
     const runtime = testCopy();
     total += runtime;
   }
-  console.log(total / iterations);
+  console.log(total / iterations, "ms");
 }
 function testCopy() {
-  const length = 10000;
+  const length = 1000000;
   const view = new Uint8Array(length);
   for (let elem of view) {
     elem = Math.random() * 255;
