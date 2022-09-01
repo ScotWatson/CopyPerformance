@@ -16,6 +16,8 @@ function fail(e) {
   console.error(e);
 }
 
+let avg = 0;
+
 function start( [ evtWindow ] ) {
   setInterval(report, 1000);
 }
@@ -26,7 +28,8 @@ function report() {
     const runtime = testCopy();
     total += runtime;
   }
-  console.log(total / iterations, "ms");
+  console.log((total / iterations), "ms");
+  avg = 0.9 * avg + 0.1 * (total / iterations);
 }
 function testCopy() {
   const length = 1000000;
