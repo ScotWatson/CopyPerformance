@@ -34,8 +34,8 @@ function testCopy() {
     elem = Math.random() * 255;
   }
   const view2 = new Uint8Array(1000000);
-  const start = Performance.now();
+  const start = self.performance.now();
   view2.set(view);
-  const end = Performance.now();
+  const end = self.performance.now();
   return (end - start);
 }
