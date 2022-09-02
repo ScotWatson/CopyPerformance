@@ -25,9 +25,6 @@ const length = 1000000;
 const view = new Uint8Array(length);
 
 function start( [ evtWindow ] ) {
-  for (let elem of view) {
-    elem = Math.random() * 255;
-  }
   setInterval(report, 1000);
 }
 function report() {
@@ -82,6 +79,9 @@ function testCopy() {
   const time0 = self.performance.now();
   const view2 = new Uint8Array(length);
   const time1 = self.performance.now();
+  for (let elem of view) {
+    elem = Math.random() * 255;
+  }
   const time2 = self.performance.now();
   view2.set(view);
   const time3 = self.performance.now();
