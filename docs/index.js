@@ -80,7 +80,7 @@ function testCopy() {
   const view2 = new Uint8Array(length);
   const time1 = self.performance.now();
   for (let i = 0; i < 16; ++i) {
-    self.crypto.getRandomValues(new Uint8Array(view1.buffer, 65536 * i));
+    self.crypto.getRandomValues(new Uint8Array(view1.buffer, 65536 * i, 65536));
   }
 /*
   for (let elem of view1) {
