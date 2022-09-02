@@ -21,7 +21,7 @@ let makeViewsSamples = new Array(iterations);
 let fillRandomSamples = new Array(iterations);
 let copyViewSamples = new Array(iterations);
 const samples = new Array(10);
-const length = 1000000;
+const length = 65536;
 const view1 = new Uint8Array(length);
 
 function start( [ evtWindow ] ) {
