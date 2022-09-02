@@ -22,7 +22,7 @@ let fillRandomSamples = new Array(iterations);
 let copyViewSamples = new Array(iterations);
 const samples = new Array(10);
 const length = 1000000;
-const view = new Uint8Array(length);
+const view1 = new Uint8Array(length);
 
 function start( [ evtWindow ] ) {
   setInterval(report, 1000);
@@ -79,11 +79,14 @@ function testCopy() {
   const time0 = self.performance.now();
   const view2 = new Uint8Array(length);
   const time1 = self.performance.now();
-  for (let elem of view) {
+  self.crypto.getRandomValues(view1);
+/*
+  for (let elem of view1) {
     elem = Math.random() * 255;
   }
+*/
   const time2 = self.performance.now();
-  view2.set(view);
+  view2.set(view1);
   const time3 = self.performance.now();
   return {
     makeViews: time1 - time0,
