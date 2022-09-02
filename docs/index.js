@@ -89,5 +89,6 @@ function testCopy() {
     makeViews: time1 - time0,
     fillRandom: time2 - time1,
     copyView: time3 - time2,
+    element: view2[0],
   };
 }
