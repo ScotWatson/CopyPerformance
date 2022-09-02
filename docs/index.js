@@ -21,8 +21,12 @@ let makeViewsSamples = new Array(iterations);
 let fillRandomSamples = new Array(iterations);
 let copyViewSamples = new Array(iterations);
 const samples = new Array(10);
+const view = new Uint8Array(length);
 
 function start( [ evtWindow ] ) {
+  for (let elem of view) {
+    elem = Math.random() * 255;
+  }
   setInterval(report, 1000);
 }
 function report() {
@@ -76,12 +80,8 @@ function report() {
 function testCopy() {
   const length = 1000000;
   const time0 = self.performance.now();
-  const view = new Uint8Array(length);
   const view2 = new Uint8Array(length);
   const time1 = self.performance.now();
-  for (let elem of view) {
-    elem = Math.random() * 255;
-  }
   const time2 = self.performance.now();
   view2.set(view);
   const time3 = self.performance.now();
