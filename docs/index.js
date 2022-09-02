@@ -16,11 +16,10 @@ function fail(e) {
   console.error(e);
 }
 
-
-let makeViewsAvg = 0;
-let fillRandomAvg = 0;
-let copyViewAvg = 0;
-const timeConstant = 1 / 16;
+const iterations = 50;
+let makeViewsSamples = new Array(iterations);
+let fillRandomSamples = new Array(iterations);
+let copyViewSamples = new Array(iterations);
 const samples = new Array(10);
 
 function start( [ evtWindow ] ) {
@@ -28,20 +27,51 @@ function start( [ evtWindow ] ) {
 }
 function report() {
   let total = 0;
-  const iterations = 50;
   let makeViewsTotal = 0;
   let fillRandomTotal = 0;
   let copyViewTotal = 0;
   for (let i = 0; i < iterations; ++i) {
     const runtimes = testCopy();
-    makeViewsTotal += runtimes.makeViews;
-    fillRandomTotal += runtimes.fillRandom;
-    copyViewTotal += runtimes.copyView;
+    makeViewsSamples[i] = runtimes.makeViews;
+    fillRandomSamples[i] = runtimes.fillRandom;
+    copyViewSamples[i] = runtimes.copyView;
   }
-  makeViewsAvg = (1 - timeConstant) * makeViewsAvg + timeConstant * (makeViewsTotal / iterations);
-  fillRandomAvg = (1 - timeConstant) * fillRandomAvg + timeConstant * (fillRandomTotal / iterations);
-  copyViewAvg = (1 - timeConstant) * copyViewAvg + timeConstant * (copyViewTotal / iterations);
-  console.log(makeViewsAvg.toFixed(3) + " ms, " + fillRandomAvg.toFixed(3) + " ms," + copyViewAvg.toFixed(3) + " ms");
+  makeViewsAvg = 0;
+  for (const sample of makeViewsSamples) {
+    makeViewsAvg += sample;
+  }
+  makeViewsAvg /= iterations;
+  makeViewsVar = 0;
+  for (const sample of makeViewsSamples) {
+    makeViewsVar += (sample - makeViewsAvg) * (sample - makeViewsAvg);
+  }
+  makeViewsVar /= iterations;
+  
+  fillRandomAvg = 0;
+  for (const sample of fillRandomSamples) {
+    fillRandomAvg += sample;
+  }
+  fillRandomAvg /= iterations;
+  fillRandomVar = 0;
+  for (const sample of fillRandomSamples) {
+    fillRandomVar += (sample - fillRandomAvg) * (sample - fillRandomAvg);
+  }
+  fillRandomVar /= iterations;
+  
+  copyViewAvg = 0;
+  for (const sample of copyViewSamples) {
+    copyViewAvg += sample;
+  }
+  copyViewAvg /= iterations;
+  copyViewVar = 0;
+  for (const sample of copyViewSamples) {
+    copyViewVar += (sample - copyViewAvg) * (sample - copyViewAvg);
+  }
+  copyViewVar /= iterations;
+  
+  console.log(makeViewsAvg.toFixed(3) + " ms (" + makeViewsVar.toFixed(3) + " ms^2), " + 
+              fillRandomAvg.toFixed(3) + " ms (" + fillRandomVar.toFixed(3) + " ms^2), " + 
+              copyViewAvg.toFixed(3) + " ms (" + copyViewVar.toFixed(3) + " ms^2)");
 }
 function testCopy() {
   const length = 1000000;
