@@ -21,6 +21,7 @@ let makeViewsSamples = new Array(iterations);
 let fillRandomSamples = new Array(iterations);
 let copyViewSamples = new Array(iterations);
 const samples = new Array(10);
+const length = 1000000;
 const view = new Uint8Array(length);
 
 function start( [ evtWindow ] ) {
@@ -78,7 +79,6 @@ function report() {
               copyViewAvg.toFixed(3) + " ms (" + copyViewVar.toFixed(3) + " ms^2)");
 }
 function testCopy() {
-  const length = 1000000;
   const time0 = self.performance.now();
   const view2 = new Uint8Array(length);
   const time1 = self.performance.now();
@@ -89,6 +89,5 @@ function testCopy() {
     makeViews: time1 - time0,
     fillRandom: time2 - time1,
     copyView: time3 - time2,
-    element: view2[0],
   };
 }
