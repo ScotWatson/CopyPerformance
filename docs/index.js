@@ -20,7 +20,7 @@ function fail(e) {
 let makeViewsAvg = 0;
 let fillRandomAvg = 0;
 let copyViewAvg = 0;
-const timeConstant = 0.125;
+const timeConstant = 1 / 16;
 const samples = new Array(10);
 
 function start( [ evtWindow ] ) {
@@ -41,7 +41,7 @@ function report() {
   makeViewsAvg = (1 - timeConstant) * makeViewsAvg + timeConstant * (makeViewsTotal / iterations);
   fillRandomAvg = (1 - timeConstant) * fillRandomAvg + timeConstant * (fillRandomTotal / iterations);
   copyViewAvg = (1 - timeConstant) * copyViewAvg + timeConstant * (copyViewTotal / iterations);
-  console.log(makeViewsAvg, "ms", fillRandomAvg, "ms", copyViewAvg, "ms");
+  console.log(makeViewsAvg.toFixed(3) + " ms, " + fillRandomAvg.toFixed(3) + " ms," + copyViewAvg.toFixed(3) + " ms");
 }
 function testCopy() {
   const length = 1000000;
