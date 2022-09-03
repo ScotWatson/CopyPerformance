@@ -25,9 +25,40 @@ const length = 1048576;
 const view1 = new Uint8Array(length);
 
 function start( [ evtWindow ] ) {
-  setInterval(report, 1000);
+  testCopyCryptoRandom();
+  let timerHandle = 0;
+  const btnNoRandom = document.createElement("button");
+  btnNoRandom.innerHTML = "Test No Random";
+  btnNoRandom.addEventListener("click", function () {
+    clearInterval(timerHandle);
+    console.log("Test No Random");
+    timerHandle = setInterval(function () {
+      report(testCopyNoRandom);
+    }, 1000);
+  });
+  document.body.appendChild(btnNoRandom);
+  const btnCryptoRandom = document.createElement("button");
+  btnCryptoRandom.innerHTML = "Test Crypto Random";
+  btnCryptoRandom.addEventListener("click", function () {
+    clearInterval(timerHandle);
+    console.log("Test Crypto Random");
+    timerHandle = setInterval(function () {
+      report(testCopyCryptoRandom);
+    }, 1000);
+  });
+  document.body.appendChild(btnCryptoRandom);
+  const btnMathRandom = document.createElement("button");
+  btnMathRandom.innerHTML = "Test Math Random";
+  btnMathRandom.addEventListener("click", function () {
+    clearInterval(timerHandle);
+    console.log("Test Math Random");
+    timerHandle = setInterval(function () {
+      report(testCopyMathRandom);
+    }, 1000);
+  });
+  document.body.appendChild(btnMathRandom);
 }
-function report() {
+function report(testCopy) {
   let total = 0;
   let makeViewsTotal = 0;
   let fillRandomTotal = 0;
@@ -75,18 +106,42 @@ function report() {
               fillRandomAvg.toFixed(3) + " ms (" + fillRandomVar.toFixed(3) + " ms^2), " + 
               copyViewAvg.toFixed(3) + " ms (" + copyViewVar.toFixed(3) + " ms^2)");
 }
-function testCopy() {
+function testCopyNoRandom() {
   const time0 = self.performance.now();
   const view2 = new Uint8Array(length);
   const time1 = self.performance.now();
-  for (let i = 0; i < 16; ++i) {
+  const time2 = self.performance.now();
+  view2.set(view1);
+  const time3 = self.performance.now();
+  return {
+    makeViews: time1 - time0,
+    fillRandom: time2 - time1,
+    copyView: time3 - time2,
+  };
+}
+function testCopyCryptoRandom() {
+  const time0 = self.performance.now();
+  const view2 = new Uint8Array(length);
+  const time1 = self.performance.now();
+  for (let i = 0; i < Math.ceil(length / 65536); ++i) {
     self.crypto.getRandomValues(new Uint8Array(view1.buffer, 65536 * i, 65536));
   }
-/*
+  const time2 = self.performance.now();
+  view2.set(view1);
+  const time3 = self.performance.now();
+  return {
+    makeViews: time1 - time0,
+    fillRandom: time2 - time1,
+    copyView: time3 - time2,
+  };
+}
+function testCopyMathRandom() {
+  const time0 = self.performance.now();
+  const view2 = new Uint8Array(length);
+  const time1 = self.performance.now();
   for (let elem of view1) {
     elem = Math.random() * 255;
   }
-*/
   const time2 = self.performance.now();
   view2.set(view1);
   const time3 = self.performance.now();
