@@ -137,9 +137,10 @@ function testCopyCryptoRandom() {
 function testCopyMathRandom() {
   const time0 = self.performance.now();
   const view2 = new Uint8Array(length);
+  const view1_32 = new Uint32Array(view1);
   const time1 = self.performance.now();
-  for (let elem of view1) {
-    elem = Math.random() * 255;
+  for (let elem of view1_32) {
+    elem = Math.random() * (2 ** 32);
   }
   const time2 = self.performance.now();
   view2.set(view1);
