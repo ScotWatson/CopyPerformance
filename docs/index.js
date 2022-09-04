@@ -16,7 +16,7 @@ function fail(e) {
   console.error(e);
 }
 
-const iterations = 150;
+const iterations = (2 ** 7);
 let makeViewsSamples = new Array(iterations);
 let fillRandomSamples = new Array(iterations);
 let copyViewSamples = new Array(iterations);
@@ -59,6 +59,7 @@ function start( [ evtWindow ] ) {
   document.body.appendChild(btnMathRandom);
 }
 function report(testCopy) {
+  const start = performance.now();
   let total = 0;
   let makeViewsTotal = 0;
   let fillRandomTotal = 0;
@@ -101,10 +102,13 @@ function report(testCopy) {
     copyViewVar += (sample - copyViewAvg) * (sample - copyViewAvg);
   }
   copyViewVar /= iterations;
-  
+
   console.log(makeViewsAvg.toFixed(3) + " ms (" + makeViewsVar.toFixed(3) + " ms^2), " + 
               fillRandomAvg.toFixed(3) + " ms (" + fillRandomVar.toFixed(3) + " ms^2), " + 
               copyViewAvg.toFixed(3) + " ms (" + copyViewVar.toFixed(3) + " ms^2)");
+  const end = performance.now();
+  console.log("test time:", (end - start), "ms");
+
 }
 function testCopyNoRandom() {
   const time0 = self.performance.now();
