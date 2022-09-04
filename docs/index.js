@@ -22,7 +22,7 @@ let fillRandomSamples = new Array(iterations);
 let copyViewSamples = new Array(iterations);
 const length = (2 ** 20);
 const view1 = new Uint8Array(length);
-const view1_32 = new Uint32Array(view1);
+const view1_32 = new Uint32Array(view1.buffer);
 
 function start( [ evtWindow ] ) {
   testCopyCryptoRandom();
