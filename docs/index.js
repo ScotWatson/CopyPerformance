@@ -16,7 +16,7 @@ function fail(e) {
   console.error(e);
 }
 
-const iterations = 50;
+const iterations = 150;
 let makeViewsSamples = new Array(iterations);
 let fillRandomSamples = new Array(iterations);
 let copyViewSamples = new Array(iterations);
@@ -47,26 +47,16 @@ function start( [ evtWindow ] ) {
     }, 1000);
   });
   document.body.appendChild(btnCryptoRandom);
-  const btnMathRandomSlow = document.createElement("button");
-  btnMathRandomSlow.innerHTML = "Test Math Random";
-  btnMathRandomSlow.addEventListener("click", function () {
-    clearInterval(timerHandle);
-    console.log("Test Math Random Slow");
-    timerHandle = setInterval(function () {
-      report(testCopyMathRandomSlow);
-    }, 1000);
-  });
-  document.body.appendChild(btnMathRandomSlow);
-  const btnMathRandomFast = document.createElement("button");
-  btnMathRandomFast.innerHTML = "Test Math Random";
-  btnMathRandomFast.addEventListener("click", function () {
+  const btnMathRandom = document.createElement("button");
+  btnMathRandom.innerHTML = "Test Math Random";
+  btnMathRandom.addEventListener("click", function () {
     clearInterval(timerHandle);
     console.log("Test Math Random Fast");
     timerHandle = setInterval(function () {
-      report(testCopyMathRandomFast);
+      report(testCopyMathRandom);
     }, 1000);
   });
-  document.body.appendChild(btnMathRandomFast);
+  document.body.appendChild(btnMathRandom);
 }
 function report(testCopy) {
   let total = 0;
@@ -145,23 +135,7 @@ function testCopyCryptoRandom() {
     copyView: time3 - time2,
   };
 }
-function testCopyMathRandomSlow() {
-  const time0 = self.performance.now();
-  const view2 = new Uint8Array(length);
-  const time1 = self.performance.now();
-  for (let elem of view1) {
-    elem = Math.random() * (2 ** 8);
-  }
-  const time2 = self.performance.now();
-  view2.set(view1);
-  const time3 = self.performance.now();
-  return {
-    makeViews: time1 - time0,
-    fillRandom: time2 - time1,
-    copyView: time3 - time2,
-  };
-}
-function testCopyMathRandomFast() {
+function testCopyMathRandom() {
   const time0 = self.performance.now();
   const view2 = new Uint8Array(length);
   const time1 = self.performance.now();
