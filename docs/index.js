@@ -16,12 +16,13 @@ function fail(e) {
   console.error(e);
 }
 
-const iterations = 10;
+const iterations = 50;
 let makeViewsSamples = new Array(iterations);
 let fillRandomSamples = new Array(iterations);
 let copyViewSamples = new Array(iterations);
-const length = (2 ** 22);
+const length = (2 ** 20);
 const view1 = new Uint8Array(length);
+const view1_32 = new Uint32Array(view1);
 
 function start( [ evtWindow ] ) {
   testCopyCryptoRandom();
@@ -137,7 +138,6 @@ function testCopyCryptoRandom() {
 function testCopyMathRandom() {
   const time0 = self.performance.now();
   const view2 = new Uint8Array(length);
-  const view1_32 = new Uint32Array(view1);
   const time1 = self.performance.now();
   for (let elem of view1_32) {
     elem = Math.random() * (2 ** 32);
