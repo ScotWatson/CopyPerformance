@@ -16,12 +16,11 @@ function fail(e) {
   console.error(e);
 }
 
-const iterations = 50;
+const iterations = 10;
 let makeViewsSamples = new Array(iterations);
 let fillRandomSamples = new Array(iterations);
 let copyViewSamples = new Array(iterations);
-const samples = new Array(10);
-const length = 1048576;
+const length = (2 ** 22);
 const view1 = new Uint8Array(length);
 
 function start( [ evtWindow ] ) {
