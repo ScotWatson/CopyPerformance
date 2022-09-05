@@ -52,23 +52,21 @@ class HTMLStatScaleElement extends HTMLElement {
   adoptedCallback() {
   }
   #clear() {
-    return;
     const ctx = this.#scaleCanvas.getContext("2d");
     ctx.globalAlpha = 1;
-    ctx.fillColor = "#FFFFFF";
-    ctx.strokeColor = "#FFFFFF";
+    ctx.fillStyle = "#FFFFFF";
+    ctx.strokeStyle = "#FFFFFF";
     const width = this.getAttribute("width");
     ctx.fillRect(0, 0, width, 50);
   }
   #drawTicks(newValue) {
-//    return;
     const ctx = this.#scaleCanvas.getContext("2d");
     ctx.globalAlpha = 1;
-    ctx.fillColor = "#FFFFFF";
-    ctx.strokeColor = "#FFFFFF";
+    ctx.fillStyle = "#FFFFFF";
+    ctx.strokeStyle = "#FFFFFF";
     const width = this.getAttribute("width");
     ctx.fillRect(0, 0, width, 25);
-    ctx.strokeColor = "#000000";
+    ctx.strokeStyle = "#000000";
     ctx.beginPath();
     for (let i = 0; i <= newValue; ++i) {
       const x = (width / newValue) * i;
@@ -106,8 +104,8 @@ class HTMLStatScaleElement extends HTMLElement {
     ctx.globalAlpha = 0.1;
     const max = this.getAttribute("data-max");
     const width = this.getAttribute("width");
-    ctx.fillColor = "#FFFFFF";
-    ctx.strokeColor = "#000000";
+    ctx.fillStyle = "#FFFFFF";
+    ctx.strokeStyle = "#000000";
     ctx.beginPath();
     const x = (value / max) * width;
     ctx.moveTo(x, 25);
