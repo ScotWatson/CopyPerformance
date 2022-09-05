@@ -45,6 +45,7 @@ class HTMLStatScaleElement extends HTMLElement {
     this.attachShadow({mode: 'open'});
     this.shadowRoot.appendChild(this.#maxDiv);
     this.shadowRoot.appendChild(this.#scaleCanvas);
+    this.reset();
   }
   disconnectedCallback() {
   }
@@ -65,7 +66,6 @@ class HTMLStatScaleElement extends HTMLElement {
     ctx.strokeColor = "#FFFFFF";
     const width = this.getAttribute("width");
     ctx.fillRect(0, 0, width, 25);
-    ctx.fillColor = "#FFFFFF";
     ctx.strokeColor = "#000000";
     ctx.beginPath();
     for (let i = 0; i <= newValue; ++i) {
@@ -97,7 +97,7 @@ class HTMLStatScaleElement extends HTMLElement {
     }
   }
   static get observedAttributes() {
-    return ["data-max", "data-interval", "width"];
+    return ["data-max", "data-ticks", "width"];
   }
   addDataPoint(value) {
     const ctx = this.#scaleCanvas.getContext("2d");
@@ -111,6 +111,11 @@ class HTMLStatScaleElement extends HTMLElement {
     ctx.moveTo(x, 25);
     ctx.lineTo(x, 50);
     ctx.stroke();
+  }
+  reset() {
+    const ticks = this.getAttribute("data-ticks");
+    this.#clear();
+    this.#drawTicks(ticks);
   }
 };
 
