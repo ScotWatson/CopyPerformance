@@ -72,8 +72,8 @@ class HTMLStatScaleElement extends HTMLElement {
       const x = (width / newValue) * i;
       ctx.moveTo(x, 0);
       ctx.lineTo(x, 25);
+      ctx.stroke();
     }
-    ctx.stroke();
   }
   attributeChangedCallback(name, oldValue, newValue) {
     switch (name) {
