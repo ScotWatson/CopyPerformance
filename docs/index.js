@@ -34,7 +34,6 @@ class HTMLStatScaleElement extends HTMLElement {
   connectedCallback() {
     console.log("connectedCallback");
     this.attachShadow({mode: 'open'});
-    img.src = this.hasAttribute('img') ? this.getAttribute('img') : 'img/default.png';
     this.#maxDiv = document.createElement("div");
     this.#scaleCanvas = document.createElement("canvas");
     this.#maxDiv.innerHTML = "Max:";
