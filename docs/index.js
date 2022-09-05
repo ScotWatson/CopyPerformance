@@ -67,9 +67,9 @@ class HTMLStatScaleElement extends HTMLElement {
     const width = this.getAttribute("width");
     ctx.fillRect(0, 0, width, 25);
     ctx.strokeStyle = "#000000";
-    ctx.beginPath();
     for (let i = 0; i <= newValue; ++i) {
       const x = (width / newValue) * i;
+      ctx.beginPath();
       ctx.moveTo(x, 0);
       ctx.lineTo(x, 25);
       ctx.stroke();
@@ -121,6 +121,10 @@ class HTMLStatScaleElement extends HTMLElement {
 
 window.customElements.define("stat-scale", HTMLStatScaleElement);
 
+const testCopyNoRandomMakeViews = document.createElement("stat-scale");
+testCopyNoRandomMakeViews.setAttribute("data-max", 0.10);
+testCopyNoRandomMakeViews.setAttribute("data-ticks", 10);
+testCopyNoRandomMakeViews.setAttribute("width", 1000);
 const testCopyNoRandomMakeViewsMean = document.createElement("stat-scale");
 testCopyNoRandomMakeViewsMean.setAttribute("data-max", 0.10);
 testCopyNoRandomMakeViewsMean.setAttribute("data-ticks", 10);
@@ -129,6 +133,10 @@ const testCopyNoRandomMakeViewsVar = document.createElement("stat-scale");
 testCopyNoRandomMakeViewsVar.setAttribute("data-max", 0.10);
 testCopyNoRandomMakeViewsVar.setAttribute("data-ticks", 10);
 testCopyNoRandomMakeViewsVar.setAttribute("width", 1000);
+const testCopyNoRandomFillRandom = document.createElement("stat-scale");
+testCopyNoRandomFillRandom.setAttribute("data-max", 0.10);
+testCopyNoRandomFillRandom.setAttribute("data-ticks", 10);
+testCopyNoRandomFillRandom.setAttribute("width", 1000);
 const testCopyNoRandomFillRandomMean = document.createElement("stat-scale");
 testCopyNoRandomFillRandomMean.setAttribute("data-max", 0.10);
 testCopyNoRandomFillRandomMean.setAttribute("data-ticks", 10);
@@ -137,6 +145,10 @@ const testCopyNoRandomFillRandomVar = document.createElement("stat-scale");
 testCopyNoRandomFillRandomVar.setAttribute("data-max", 0.10);
 testCopyNoRandomFillRandomVar.setAttribute("data-ticks", 10);
 testCopyNoRandomFillRandomVar.setAttribute("width", 1000);
+const testCopyNoRandomCopyView = document.createElement("stat-scale");
+testCopyNoRandomCopyView.setAttribute("data-max", 0.50);
+testCopyNoRandomCopyView.setAttribute("data-ticks", 10);
+testCopyNoRandomCopyView.setAttribute("width", 1000);
 const testCopyNoRandomCopyViewMean = document.createElement("stat-scale");
 testCopyNoRandomCopyViewMean.setAttribute("data-max", 0.50);
 testCopyNoRandomCopyViewMean.setAttribute("data-ticks", 10);
@@ -146,6 +158,10 @@ testCopyNoRandomCopyViewVar.setAttribute("data-max", 0.50);
 testCopyNoRandomCopyViewVar.setAttribute("data-ticks", 10);
 testCopyNoRandomCopyViewVar.setAttribute("width", 1000);
 
+const testCopyCryptoRandomMakeViews = document.createElement("stat-scale");
+testCopyCryptoRandomMakeViews.setAttribute("data-max", 0.10);
+testCopyCryptoRandomMakeViews.setAttribute("data-ticks", 10);
+testCopyCryptoRandomMakeViews.setAttribute("width", 1000);
 const testCopyCryptoRandomMakeViewsMean = document.createElement("stat-scale");
 testCopyCryptoRandomMakeViewsMean.setAttribute("data-max", 0.10);
 testCopyCryptoRandomMakeViewsMean.setAttribute("data-ticks", 10);
@@ -154,6 +170,10 @@ const testCopyCryptoRandomMakeViewsVar = document.createElement("stat-scale");
 testCopyCryptoRandomMakeViewsVar.setAttribute("data-max", 0.10);
 testCopyCryptoRandomMakeViewsVar.setAttribute("data-ticks", 10);
 testCopyCryptoRandomMakeViewsVar.setAttribute("width", 1000);
+const testCopyCryptoRandomFillRandom = document.createElement("stat-scale");
+testCopyCryptoRandomFillRandom.setAttribute("data-max", 3.50);
+testCopyCryptoRandomFillRandom.setAttribute("data-ticks", 10);
+testCopyCryptoRandomFillRandom.setAttribute("width", 1000);
 const testCopyCryptoRandomFillRandomMean = document.createElement("stat-scale");
 testCopyCryptoRandomFillRandomMean.setAttribute("data-max", 3.50);
 testCopyCryptoRandomFillRandomMean.setAttribute("data-ticks", 10);
@@ -162,6 +182,10 @@ const testCopyCryptoRandomFillRandomVar = document.createElement("stat-scale");
 testCopyCryptoRandomFillRandomVar.setAttribute("data-max", 0.10);
 testCopyCryptoRandomFillRandomVar.setAttribute("data-ticks", 10);
 testCopyCryptoRandomFillRandomVar.setAttribute("width", 1000);
+const testCopyCryptoRandomCopyView = document.createElement("stat-scale");
+testCopyCryptoRandomCopyView.setAttribute("data-max", 0.50);
+testCopyCryptoRandomCopyView.setAttribute("data-ticks", 10);
+testCopyCryptoRandomCopyView.setAttribute("width", 1000);
 const testCopyCryptoRandomCopyViewMean = document.createElement("stat-scale");
 testCopyCryptoRandomCopyViewMean.setAttribute("data-max", 0.50);
 testCopyCryptoRandomCopyViewMean.setAttribute("data-ticks", 10);
@@ -171,6 +195,10 @@ testCopyCryptoRandomCopyViewVar.setAttribute("data-max", 0.50);
 testCopyCryptoRandomCopyViewVar.setAttribute("data-ticks", 10);
 testCopyCryptoRandomCopyViewVar.setAttribute("width", 1000);
 
+const testCopyMathRandomMakeViews = document.createElement("stat-scale");
+testCopyMathRandomMakeViews.setAttribute("data-max", 0.10);
+testCopyMathRandomMakeViews.setAttribute("data-ticks", 10);
+testCopyMathRandomMakeViews.setAttribute("width", 1000);
 const testCopyMathRandomMakeViewsMean = document.createElement("stat-scale");
 testCopyMathRandomMakeViewsMean.setAttribute("data-max", 0.10);
 testCopyMathRandomMakeViewsMean.setAttribute("data-ticks", 10);
@@ -179,6 +207,10 @@ const testCopyMathRandomMakeViewsVar = document.createElement("stat-scale");
 testCopyMathRandomMakeViewsVar.setAttribute("data-max", 0.10);
 testCopyMathRandomMakeViewsVar.setAttribute("data-ticks", 10);
 testCopyMathRandomMakeViewsVar.setAttribute("width", 1000);
+const testCopyMathRandomFillRandom = document.createElement("stat-scale");
+testCopyMathRandomFillRandom.setAttribute("data-max", 12);
+testCopyMathRandomFillRandom.setAttribute("data-ticks", 10);
+testCopyMathRandomFillRandom.setAttribute("width", 1000);
 const testCopyMathRandomFillRandomMean = document.createElement("stat-scale");
 testCopyMathRandomFillRandomMean.setAttribute("data-max", 12);
 testCopyMathRandomFillRandomMean.setAttribute("data-ticks", 10);
@@ -187,6 +219,10 @@ const testCopyMathRandomFillRandomVar = document.createElement("stat-scale");
 testCopyMathRandomFillRandomVar.setAttribute("data-max", 1.00);
 testCopyMathRandomFillRandomVar.setAttribute("data-ticks", 10);
 testCopyMathRandomFillRandomVar.setAttribute("width", 1000);
+const testCopyMathRandomCopyView = document.createElement("stat-scale");
+testCopyMathRandomCopyView.setAttribute("data-max", 0.50);
+testCopyMathRandomCopyView.setAttribute("data-ticks", 10);
+testCopyMathRandomCopyView.setAttribute("width", 1000);
 const testCopyMathRandomCopyViewMean = document.createElement("stat-scale");
 testCopyMathRandomCopyViewMean.setAttribute("data-max", 0.50);
 testCopyMathRandomCopyViewMean.setAttribute("data-ticks", 10);
@@ -199,11 +235,15 @@ testCopyMathRandomCopyViewVar.setAttribute("width", 1000);
 function start( [ evtWindow ] ) {
   document.body.appendChild(document.createTextNode("Copy - No Random - Make Views"));
   document.body.appendChild(document.createElement("br"));
+  document.body.appendChild(testCopyNoRandomMakeViews);
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyNoRandomMakeViewsMean);
   document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyNoRandomMakeViewsVar);
   document.body.appendChild(document.createElement("br"));
   document.body.appendChild(document.createTextNode("Copy - No Random - Fill Random"));
+  document.body.appendChild(document.createElement("br"));
+  document.body.appendChild(testCopyNoRandomFillRandom);
   document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyNoRandomFillRandomMean);
   document.body.appendChild(document.createElement("br"));
@@ -211,17 +251,24 @@ function start( [ evtWindow ] ) {
   document.body.appendChild(document.createElement("br"));
   document.body.appendChild(document.createTextNode("Copy - No Random - Copy View"));
   document.body.appendChild(document.createElement("br"));
+  document.body.appendChild(testCopyNoRandomCopyView);
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyNoRandomCopyViewMean);
   document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyNoRandomCopyViewVar);
   document.body.appendChild(document.createElement("br"));
 
   document.body.appendChild(document.createTextNode("Copy - Crypto Random - Make Views"));
+  document.body.appendChild(document.createElement("br"));
+  document.body.appendChild(testCopyCryptoRandomMakeViews);
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyCryptoRandomMakeViewsMean);
   document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyCryptoRandomMakeViewsVar);
   document.body.appendChild(document.createElement("br"));
   document.body.appendChild(document.createTextNode("Copy - Crypto Random - Fill Random"));
+  document.body.appendChild(document.createElement("br"));
+  document.body.appendChild(testCopyCryptoRandomFillRandom);
   document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyCryptoRandomFillRandomMean);
   document.body.appendChild(document.createElement("br"));
@@ -229,18 +276,32 @@ function start( [ evtWindow ] ) {
   document.body.appendChild(document.createElement("br"));
   document.body.appendChild(document.createTextNode("Copy - Crypto Random - Copy View"));
   document.body.appendChild(document.createElement("br"));
+  document.body.appendChild(testCopyCryptoRandomCopyView);
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyCryptoRandomCopyViewMean);
   document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyCryptoRandomCopyViewVar);
   document.body.appendChild(document.createElement("br"));
 
+  document.body.appendChild(document.createTextNode("Copy - Math Random - Make Views"));
+  document.body.appendChild(document.createElement("br"));
+  document.body.appendChild(testCopyMathRandomMakeViews);
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyMathRandomMakeViewsMean);
   document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyMathRandomMakeViewsVar);
   document.body.appendChild(document.createElement("br"));
+  document.body.appendChild(document.createTextNode("Copy - Math Random - Fill Random"));
+  document.body.appendChild(document.createElement("br"));
+  document.body.appendChild(testCopyMathRandomFillRandom);
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyMathRandomFillRandomMean);
   document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyMathRandomFillRandomVar);
+  document.body.appendChild(document.createElement("br"));
+  document.body.appendChild(document.createTextNode("Copy - Math Random - Copy View"));
+  document.body.appendChild(document.createElement("br"));
+  document.body.appendChild(testCopyMathRandomCopyView);
   document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyMathRandomCopyViewMean);
   document.body.appendChild(document.createElement("br"));
@@ -259,7 +320,10 @@ function start( [ evtWindow ] ) {
                testCopyNoRandomFillRandomMean,
                testCopyNoRandomFillRandomVar,
                testCopyNoRandomCopyViewMean,
-               testCopyNoRandomCopyViewVar);
+               testCopyNoRandomCopyViewVar,
+               testCopyNoRandomMakeViews, 
+               testCopyNoRandomFillRandom,
+               testCopyNoRandomCopyView);
         break;
       case 1:
         console.log("testCopyCryptoRandom");
@@ -269,7 +333,10 @@ function start( [ evtWindow ] ) {
                testCopyCryptoRandomFillRandomMean,
                testCopyCryptoRandomFillRandomVar,
                testCopyCryptoRandomCopyViewMean,
-               testCopyCryptoRandomCopyViewVar);
+               testCopyCryptoRandomCopyViewVar,
+               testCopyCryptoRandomMakeViews, 
+               testCopyCryptoRandomFillRandom,
+               testCopyCryptoRandomCopyView);
         break;
       case 2:
         console.log("testCopyMathRandom");
@@ -279,7 +346,10 @@ function start( [ evtWindow ] ) {
                testCopyMathRandomFillRandomMean,
                testCopyMathRandomFillRandomVar,
                testCopyMathRandomCopyViewMean,
-               testCopyMathRandomCopyViewVar);
+               testCopyMathRandomCopyViewVar,
+               testCopyMathRandomMakeViews, 
+               testCopyMathRandomFillRandom,
+               testCopyMathRandomCopyView);
         break;
       default:
         break;
@@ -290,7 +360,7 @@ function start( [ evtWindow ] ) {
     }
   }, 1000);
 }
-function report(testCopy, testCopyMakeViewsMean, testCopyMakeViewsVar, testCopyFillRandomMean, testCopyFillRandomVar, testCopyCopyViewMean, testCopyCopyViewVar) {
+function report(testCopy, testCopyMakeViewsMean, testCopyMakeViewsVar, testCopyFillRandomMean, testCopyFillRandomVar, testCopyCopyViewMean, testCopyCopyViewVar, testCopyMakeViews, testCopyFillRandom, testCopyCopyView) {
   const start = performance.now();
   let total = 0;
   let makeViewsTotal = 0;
@@ -345,6 +415,19 @@ function report(testCopy, testCopyMakeViewsMean, testCopyMakeViewsVar, testCopyF
   testCopyFillRandomVar.addDataPoint(fillRandomVar);
   testCopyCopyViewMean.addDataPoint(copyViewAvg);
   testCopyCopyViewVar.addDataPoint(copyViewVar);
+  
+  testCopyMakeViews.reset();
+  for (const sample of makeViewsSamples) {
+    testCopyMakeViews.addDataPoint(sample);
+  }
+  testCopyFillRandom.reset();
+  for (const sample of fillRandomSamples) {
+    testCopyFillRandom.addDataPoint(sample);
+  }
+  testCopyCopyView.reset();
+  for (const sample of copyViewSamples) {
+    testCopyCopyView.addDataPoint(sample);
+  }
   
   const end = performance.now();
   console.log("test time:", (end - start), "ms");
