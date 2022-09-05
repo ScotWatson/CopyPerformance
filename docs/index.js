@@ -32,11 +32,11 @@ class HTMLStatScaleElement extends HTMLElement {
     super();
   }
   connectedCallback() {
-    console.log("connectedCallback");
+    const width = this.getAttribute("width");
     this.attachShadow({mode: 'open'});
     this.#maxDiv = document.createElement("div");
     this.#scaleCanvas = document.createElement("canvas");
-    this.#maxDiv.innerHTML = "Max:";
+    this.#maxDiv.innerHTML = "Max: ";
     this.shadowRoot.appendChild(this.#maxDiv);
     this.#scaleCanvas.width = 1000;
     this.#scaleCanvas.height = 50;
@@ -74,7 +74,6 @@ class HTMLStatScaleElement extends HTMLElement {
     ctx.stroke();
   }
   attributeChangedCallback(name, oldValue, newValue) {
-    ctx.globalAlpha = 0.1;
     switch (name) {
       case "data-max":
         this.#maxDiv.innerHTML = "Max: " + newValue;
@@ -191,26 +190,55 @@ testCopyMathRandomCopyViewVar.setAttribute("data-ticks", 10);
 testCopyMathRandomCopyViewVar.setAttribute("width", 1000);
 
 function start( [ evtWindow ] ) {
+  document.body.appendChild(document.createTextNode("Copy - No Random - Make Views"));
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyNoRandomMakeViewsMean);
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyNoRandomMakeViewsVar);
+  document.body.appendChild(document.createElement("br"));
+  document.body.appendChild(document.createTextNode("Copy - No Random - Fill Random"));
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyNoRandomFillRandomMean);
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyNoRandomFillRandomVar);
+  document.body.appendChild(document.createElement("br"));
+  document.body.appendChild(document.createTextNode("Copy - No Random - Copy View"));
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyNoRandomCopyViewMean);
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyNoRandomCopyViewVar);
+  document.body.appendChild(document.createElement("br"));
 
+  document.body.appendChild(document.createTextNode("Copy - Crypto Random - Make Views"));
   document.body.appendChild(testCopyCryptoRandomMakeViewsMean);
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyCryptoRandomMakeViewsVar);
+  document.body.appendChild(document.createElement("br"));
+  document.body.appendChild(document.createTextNode("Copy - Crypto Random - Fill Random"));
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyCryptoRandomFillRandomMean);
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyCryptoRandomFillRandomVar);
+  document.body.appendChild(document.createElement("br"));
+  document.body.appendChild(document.createTextNode("Copy - Crypto Random - Copy View"));
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyCryptoRandomCopyViewMean);
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyCryptoRandomCopyViewVar);
+  document.body.appendChild(document.createElement("br"));
 
   document.body.appendChild(testCopyMathRandomMakeViewsMean);
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyMathRandomMakeViewsVar);
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyMathRandomFillRandomMean);
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyMathRandomFillRandomVar);
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyMathRandomCopyViewMean);
+  document.body.appendChild(document.createElement("br"));
   document.body.appendChild(testCopyMathRandomCopyViewVar);
+  document.body.appendChild(document.createElement("br"));
 
   testCopyCryptoRandom();
   let testFunctionNumber = 0;
