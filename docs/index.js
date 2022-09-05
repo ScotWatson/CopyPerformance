@@ -32,6 +32,7 @@ class HTMLStatScaleElement extends HTMLElement {
     super();
   }
   connectedCallback() {
+    console.log("connectedCallback");
     this.attachShadow({mode: 'open'});
     img.src = this.hasAttribute('img') ? this.getAttribute('img') : 'img/default.png';
     this.#maxDiv = document.createElement("div");
@@ -217,6 +218,7 @@ function start( [ evtWindow ] ) {
   setInterval(function () {
     switch (testFunctionNumber) {
       case 0:
+        console.log("testCopyNoRandom");
         report(testCopyNoRandom,
                testCopyNoRandomMakeViewsMean, 
                testCopyNoRandomMakeViewsVar,
@@ -226,6 +228,7 @@ function start( [ evtWindow ] ) {
                testCopyNoRandomCopyViewVar);
         break;
       case 1:
+        console.log("testCopyCryptoRandom");
         report(testCopyCryptoRandom,
                testCopyCryptoRandomMakeViewsMean, 
                testCopyCryptoRandomMakeViewsVar,
@@ -235,6 +238,7 @@ function start( [ evtWindow ] ) {
                testCopyCryptoRandomCopyViewVar);
         break;
       case 2:
+        console.log("testCopyMathRandom");
         report(testCopyMathRandom,
                testCopyMathRandomMakeViewsMean, 
                testCopyMathRandomMakeViewsVar,
