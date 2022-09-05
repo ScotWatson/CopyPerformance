@@ -30,18 +30,20 @@ class HTMLStatScaleElement extends HTMLElement {
   #scaleCanvas;
   constructor() {
     super();
-  }
-  connectedCallback() {
-    const width = this.getAttribute("width");
-    this.attachShadow({mode: 'open'});
     this.#maxDiv = document.createElement("div");
     this.#scaleCanvas = document.createElement("canvas");
     this.#maxDiv.innerHTML = "Max: ";
-    this.shadowRoot.appendChild(this.#maxDiv);
+    this.#maxDiv.style.width = 1000 + "px";
+    this.#maxDiv.style.textAlign = "right";
     this.#scaleCanvas.width = 1000;
     this.#scaleCanvas.height = 50;
     this.#scaleCanvas.style.width = this.#scaleCanvas.width + "px";
     this.#scaleCanvas.style.height = this.#scaleCanvas.height + "px";
+  }
+  connectedCallback() {
+    const width = this.getAttribute("width");
+    this.attachShadow({mode: 'open'});
+    this.shadowRoot.appendChild(this.#maxDiv);
     this.shadowRoot.appendChild(this.#scaleCanvas);
   }
   disconnectedCallback() {
