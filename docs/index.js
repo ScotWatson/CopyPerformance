@@ -45,7 +45,7 @@ class HTMLStatScaleElement extends HTMLElement {
     this.attachShadow({mode: 'open'});
     this.shadowRoot.appendChild(this.#maxDiv);
     this.shadowRoot.appendChild(this.#scaleCanvas);
-    this.reset();
+//    this.reset();
   }
   disconnectedCallback() {
   }
@@ -60,6 +60,7 @@ class HTMLStatScaleElement extends HTMLElement {
     ctx.fillRect(0, 0, width, 50);
   }
   #drawTicks(newValue) {
+    return;
     const ctx = this.#scaleCanvas.getContext("2d");
     ctx.globalAlpha = 1;
     ctx.fillColor = "#FFFFFF";
