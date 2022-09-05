@@ -61,7 +61,7 @@ class HTMLStatScaleElement extends HTMLElement {
     ctx.fillRect(0, 0, width, 50);
   }
   #drawTicks(newValue) {
-    return;
+//    return;
     const ctx = this.#scaleCanvas.getContext("2d");
     ctx.globalAlpha = 1;
     ctx.fillColor = "#FFFFFF";
