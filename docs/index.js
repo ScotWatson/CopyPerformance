@@ -499,7 +499,7 @@ function timedResults(testFunc, timingLimit, updateFunc) {
   const resultsMap = new Map();
   const firstRun = testFunc();
   for (const category of Object.getOwnPropertyNames(firstRun)) {
-    resultsMap.add(category, new Array(0));
+    resultsMap.set(category, new Array(0));
   }
   function resultsPromise() {
     return new Promise(function (resolve, reject) {
