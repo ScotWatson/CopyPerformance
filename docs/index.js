@@ -521,6 +521,7 @@ function timedResults(testFunc, timingLimit, updateFunc) {
     clearInterval(intervalHandle);
     let ret = {};
     for (const [category, resultsArray] of resultsMap) {
+      ret[category] = {};
       ret[category].iterations = resultsArray.length;
       resultsArray.sort(function compareFn(a, b) {
         if (a < b) {
