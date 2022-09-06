@@ -154,8 +154,8 @@ testCopyNoRandomCopyViewMean.setAttribute("data-max", 2.0);
 testCopyNoRandomCopyViewMean.setAttribute("data-ticks", 20);
 testCopyNoRandomCopyViewMean.setAttribute("width", 1000);
 const testCopyNoRandomCopyViewVar = document.createElement("stat-scale");
-testCopyNoRandomCopyViewVar.setAttribute("data-max", 0.5);
-testCopyNoRandomCopyViewVar.setAttribute("data-ticks", 5);
+testCopyNoRandomCopyViewVar.setAttribute("data-max", 0.2);
+testCopyNoRandomCopyViewVar.setAttribute("data-ticks", 20);
 testCopyNoRandomCopyViewVar.setAttribute("width", 1000);
 
 const testCopyCryptoRandomMakeViews = document.createElement("stat-scale");
@@ -171,16 +171,16 @@ testCopyCryptoRandomMakeViewsVar.setAttribute("data-max", 1.0);
 testCopyCryptoRandomMakeViewsVar.setAttribute("data-ticks", 10);
 testCopyCryptoRandomMakeViewsVar.setAttribute("width", 1000);
 const testCopyCryptoRandomFillRandom = document.createElement("stat-scale");
-testCopyCryptoRandomFillRandom.setAttribute("data-max", 5.0);
-testCopyCryptoRandomFillRandom.setAttribute("data-ticks", 50);
+testCopyCryptoRandomFillRandom.setAttribute("data-max", 2.0);
+testCopyCryptoRandomFillRandom.setAttribute("data-ticks", 20);
 testCopyCryptoRandomFillRandom.setAttribute("width", 1000);
 const testCopyCryptoRandomFillRandomMean = document.createElement("stat-scale");
-testCopyCryptoRandomFillRandomMean.setAttribute("data-max", 5.0);
-testCopyCryptoRandomFillRandomMean.setAttribute("data-ticks", 50);
+testCopyCryptoRandomFillRandomMean.setAttribute("data-max", 2.0);
+testCopyCryptoRandomFillRandomMean.setAttribute("data-ticks", 20);
 testCopyCryptoRandomFillRandomMean.setAttribute("width", 1000);
 const testCopyCryptoRandomFillRandomVar = document.createElement("stat-scale");
-testCopyCryptoRandomFillRandomVar.setAttribute("data-max", 0.1);
-testCopyCryptoRandomFillRandomVar.setAttribute("data-ticks", 10);
+testCopyCryptoRandomFillRandomVar.setAttribute("data-max", 0.05);
+testCopyCryptoRandomFillRandomVar.setAttribute("data-ticks", 5);
 testCopyCryptoRandomFillRandomVar.setAttribute("width", 1000);
 const testCopyCryptoRandomCopyView = document.createElement("stat-scale");
 testCopyCryptoRandomCopyView.setAttribute("data-max", 2.0);
@@ -191,8 +191,8 @@ testCopyCryptoRandomCopyViewMean.setAttribute("data-max", 2.0);
 testCopyCryptoRandomCopyViewMean.setAttribute("data-ticks", 20);
 testCopyCryptoRandomCopyViewMean.setAttribute("width", 1000);
 const testCopyCryptoRandomCopyViewVar = document.createElement("stat-scale");
-testCopyCryptoRandomCopyViewVar.setAttribute("data-max", 0.5);
-testCopyCryptoRandomCopyViewVar.setAttribute("data-ticks", 5);
+testCopyCryptoRandomCopyViewVar.setAttribute("data-max", 0.2);
+testCopyCryptoRandomCopyViewVar.setAttribute("data-ticks", 20);
 testCopyCryptoRandomCopyViewVar.setAttribute("width", 1000);
 
 const testCopyMathRandomMakeViews = document.createElement("stat-scale");
@@ -208,16 +208,16 @@ testCopyMathRandomMakeViewsVar.setAttribute("data-max", 1.0);
 testCopyMathRandomMakeViewsVar.setAttribute("data-ticks", 10);
 testCopyMathRandomMakeViewsVar.setAttribute("width", 1000);
 const testCopyMathRandomFillRandom = document.createElement("stat-scale");
-testCopyMathRandomFillRandom.setAttribute("data-max", 40);
-testCopyMathRandomFillRandom.setAttribute("data-ticks", 40);
+testCopyMathRandomFillRandom.setAttribute("data-max", 20);
+testCopyMathRandomFillRandom.setAttribute("data-ticks", 20);
 testCopyMathRandomFillRandom.setAttribute("width", 1000);
 const testCopyMathRandomFillRandomMean = document.createElement("stat-scale");
-testCopyMathRandomFillRandomMean.setAttribute("data-max", 40);
-testCopyMathRandomFillRandomMean.setAttribute("data-ticks", 40);
+testCopyMathRandomFillRandomMean.setAttribute("data-max", 20);
+testCopyMathRandomFillRandomMean.setAttribute("data-ticks", 20);
 testCopyMathRandomFillRandomMean.setAttribute("width", 1000);
 const testCopyMathRandomFillRandomVar = document.createElement("stat-scale");
-testCopyMathRandomFillRandomVar.setAttribute("data-max", 1.0);
-testCopyMathRandomFillRandomVar.setAttribute("data-ticks", 10);
+testCopyMathRandomFillRandomVar.setAttribute("data-max", 5.0);
+testCopyMathRandomFillRandomVar.setAttribute("data-ticks", 50);
 testCopyMathRandomFillRandomVar.setAttribute("width", 1000);
 const testCopyMathRandomCopyView = document.createElement("stat-scale");
 testCopyMathRandomCopyView.setAttribute("data-max", 2.0);
@@ -228,8 +228,8 @@ testCopyMathRandomCopyViewMean.setAttribute("data-max", 2.0);
 testCopyMathRandomCopyViewMean.setAttribute("data-ticks", 20);
 testCopyMathRandomCopyViewMean.setAttribute("width", 1000);
 const testCopyMathRandomCopyViewVar = document.createElement("stat-scale");
-testCopyMathRandomCopyViewVar.setAttribute("data-max", 0.5);
-testCopyMathRandomCopyViewVar.setAttribute("data-ticks", 5);
+testCopyMathRandomCopyViewVar.setAttribute("data-max", 0.2);
+testCopyMathRandomCopyViewVar.setAttribute("data-ticks", 20);
 testCopyMathRandomCopyViewVar.setAttribute("width", 1000);
 
 function start( [ evtWindow ] ) {
@@ -500,25 +500,47 @@ function testCopyMathRandom() {
   };
 }
 
-function timedResults(testFunc, timingLimit, updateFunc) {
+function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
   const start = performance.now();
   const end = start + timingLimit;
   const resultsMap = new Map();
+  const logResultsMap = new Map();
+  const batchMap = new Map();
   const firstRun = testFunc();
   for (const category of Object.getOwnPropertyNames(firstRun)) {
     resultsMap.set(category, new Array(0));
+    logResultsMap.set(category, new Array(0));
+    batchMap.set(category, new Array(batchSize));
   }
   const intervalHandle = setInterval(function () {
     const startCycle = performance.now();
     const endCycle = start + 500;
     while (performance.now() < end) {
-      const results = testFunc();
-      for (const category of Object.getOwnPropertyNames(results)) {
-        const resultsArray = resultsMap.get(category);
-        resultsArray.push(results[category]);
-      }
       if (updateFunc) {
         updateFunc(end - performance.now());
+      }
+      for (let i = 0; i < batchSize, ++i) {
+        const results = testFunc();
+        for (const category of Object.getOwnPropertyNames(results)) {
+          const batchArray = batchMap.get(category);
+          batchArray[i] = results[category];
+        }
+      }
+      for (const [category, _] of resultsMap) {
+        const resultsArray = resultsMap.get(category);
+        let mean = 0;
+        for (const sample of resultsArray) {
+          mean += sample;
+        }
+        mean /= batchSize;
+        resultsArray.push(mean);
+        const logResultsArray = logResultsMap.get(category);
+        let logMean = 0;
+        for (const sample of resultsArray) {
+          logMean += sample;
+        }
+        logMean /= batchSize;
+        logResultsArray.push(logMean);
       }
     }
   }, 1000);
@@ -527,7 +549,8 @@ function timedResults(testFunc, timingLimit, updateFunc) {
   }).then(function () {
     clearInterval(intervalHandle);
     let ret = {};
-    for (const [category, resultsArray] of resultsMap) {
+    for (const [category, _] of resultsMap) {
+      const resultsArray = resultsMap.get(category);
       ret[category] = {};
       ret[category].iterations = resultsArray.length;
       resultsArray.sort(function compareFn(a, b) {
@@ -549,6 +572,18 @@ function timedResults(testFunc, timingLimit, updateFunc) {
         ret[category].variance += (sample - ret[category].mean) ** 2;
       }
       ret[category].variance /= (ret[category].iterations - 1);
+      ret[category].variance *= Math.sqrt(batchSize);
+      ret[category].mu = 0;
+      for (const sample of resultsArray) {
+        ret[category].mu += sample;
+      }
+      ret[category].mu /= ret[category].iterations;
+      ret[category].sigma_2 = 0;
+      for (const sample of resultsArray) {
+        ret[category].sigma_2 += (sample - ret[category].mu) ** 2;
+      }
+      ret[category].sigma_2 /= (ret[category].iterations - 1);
+      ret[category].sigma_2 *= Math.sqrt(batchSize);
       const firstQuartileIndex = (1 / 4) * (ret[category].iterations - 1) + (1 / 2);
       ret[category].firstQuartile = interpolate(firstQuartileIndex, resultsArray);
       const medianIndex = (1 / 2) * (ret[category].iterations - 1) + (1 / 2);
@@ -570,12 +605,12 @@ function skewAnalysis(args) {
   let ret = {};
   const erf_const = 0.476936276689031;
   ret.normFirstQuartile = args.mean - (erf_const * Math.sqrt(2 * args.variance));
+  ret.normMedian = args.mean;
   ret.normThirdQuartile = args.mean + (erf_const * Math.sqrt(2 * args.variance));
   if (args.mean > 0 && args.median > 0) {
-    ret.mu = Math.log(args.median);
-    ret.sigma_2 = 2 * (Math.log(args.mean) - ret.mu);
-    ret.logNormFirstQuartile = Math.exp(ret.mu - (erf_const * Math.sqrt(2 * ret.sigma_2)));
-    ret.logNormThirdQuartile = Math.exp(ret.mu + (erf_const * Math.sqrt(2 * ret.sigma_2)));
+    ret.logNormFirstQuartile = Math.exp(args.mu - (erf_const * Math.sqrt(2 * args.sigma_2)));
+    ret.logNormMedian = Math.exp(args.mu);
+    ret.logNormThirdQuartile = Math.exp(args.mu + (erf_const * Math.sqrt(2 * args.sigma_2)));
   }
   return ret;
 }
