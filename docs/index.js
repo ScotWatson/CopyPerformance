@@ -501,8 +501,10 @@ function timedResults(testFunc, timingLimit, updateFunc) {
   for (const category of Object.getOwnPropertyNames(firstRun)) {
     resultsMap.set(category, new Array(0));
   }
-  function resultsPromise() {
-    return Promise.resolve().then(function () {
+  const intervalHandle = setInterval(function () {
+    const startCycle = performance.now();
+    const endCycle = start + 500;
+    while (performance.now() < end) {
       const results = testFunc();
       for (const category of Object.getOwnPropertyNames(results)) {
         const resultsArray = resultsMap.get(category);
@@ -511,12 +513,12 @@ function timedResults(testFunc, timingLimit, updateFunc) {
       if (updateFunc) {
         updateFunc(end - performance.now());
       }
-      if (performance.now() < end) {
-        return resultsPromise();
-      }
-    });
-  }
-  return resultsPromise().then(function () {
+    }
+  }, 1000);
+  return new Promise(function (resolve, reject) {
+    setTimeout(resolve, timingLimit);
+  }).then(function () {
+    clearInterval(intervalHandle);
     let ret = {};
     for (const [category, resultsArray] of resultsMap) {
       ret[category].iterations = resultsArray.length;
