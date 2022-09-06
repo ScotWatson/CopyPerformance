@@ -512,7 +512,7 @@ function timedResults(testFunc, timingLimit, updateFunc) {
         updateFunc(end - performance.now());
       }
       if (performance.now() < end) {
-        resultsPromise();
+        return resultsPromise();
       }
     });
   }
