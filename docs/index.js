@@ -329,7 +329,7 @@ function start( [ evtWindow ] ) {
       }
     }
   });
-
+/*
   let testFunctionNumber = 0;
   setInterval(function () {
     switch (testFunctionNumber) {
@@ -380,6 +380,7 @@ function start( [ evtWindow ] ) {
       testFunctionNumber = 0;
     }
   }, 1000);
+*/
 }
 function report(testCopy, testCopyMakeViewsMean, testCopyMakeViewsVar, testCopyFillRandomMean, testCopyFillRandomVar, testCopyCopyViewMean, testCopyCopyViewVar, testCopyMakeViews, testCopyFillRandom, testCopyCopyView) {
   const start = performance.now();
