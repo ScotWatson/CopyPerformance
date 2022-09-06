@@ -315,7 +315,7 @@ function start( [ evtWindow ] ) {
   function update(timeRemaining) {
     divTimedResults.innerHTML = "Remaining: " + (timeRemaining / 1000) + " sec";
   }
-  timedResults(testCopyNoRandom, 10 * 1000, update).then(function (results) {
+  timedResults(testCopyNoRandom, 10 * 1000, update, 20).then(function (results) {
     divTimedResults.innerHTML = JSON.stringify(results) + "<br>";
     for (const category of Object.getOwnPropertyNames(results)) {
       const categoryResults = results[category];
@@ -537,7 +537,7 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
         const logResultsArray = logResultsMap.get(category);
         let logMean = 0;
         for (const sample of resultsArray) {
-          logMean += sample;
+          logMean += Math.log(sample);
         }
         logMean /= batchSize;
         logResultsArray.push(logMean);
@@ -552,7 +552,8 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
     for (const [category, _] of resultsMap) {
       const resultsArray = resultsMap.get(category);
       ret[category] = {};
-      ret[category].iterations = resultsArray.length;
+      ret[category].batches = resultsArray.length;
+      ret[category].batchSize = batchSize;
       resultsArray.sort(function compareFn(a, b) {
         if (a < b) {
           return -1;
@@ -574,12 +575,12 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
       ret[category].variance /= (ret[category].iterations - 1);
       ret[category].variance *= Math.sqrt(batchSize);
       ret[category].mu = 0;
-      for (const sample of resultsArray) {
+      for (const sample of logResultsArray) {
         ret[category].mu += sample;
       }
       ret[category].mu /= ret[category].iterations;
       ret[category].sigma_2 = 0;
-      for (const sample of resultsArray) {
+      for (const sample of logResultsArray) {
         ret[category].sigma_2 += (sample - ret[category].mu) ** 2;
       }
       ret[category].sigma_2 /= (ret[category].iterations - 1);
