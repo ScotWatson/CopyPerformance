@@ -315,11 +315,18 @@ function start( [ evtWindow ] ) {
   function update(timeRemaining) {
     divTimedResults.innerHTML = "Remaining: " + (timeRemaining / 1000) + " sec";
   }
-  timedResults(testCopyNoRandom, 5 * 1000, update).then(function (results) {
+  timedResults(testCopyNoRandom, 10 * 1000, update).then(function (results) {
     divTimedResults.innerHTML = JSON.stringify(results) + "<br>";
     for (const category of Object.getOwnPropertyNames(results)) {
+      const categoryResults = results[category];
       divTimedResults.innerHTML += category + "<br>";
-      divTimedResults.innerHTML += JSON.stringify(skewAnalysis(results[category])) + "<br>";
+      for (const property of Object.getOwnPropertyNames(categoryResults)) {
+        divTimedResults.innerHTML += "_" + property + ": " + categoryResults[property].toFixed(3) + "<br>";
+      }
+      const categoryAnalysis = skewAnalysis(categoryResults);
+      for (const property of Object.getOwnPropertyNames(categoryAnalysis)) {
+        divTimedResults.innerHTML += "_" + property + ": " + categoryAnalysis[property].toFixed(3) + "<br>";
+      }
     }
   });
 
@@ -562,11 +569,13 @@ function interpolate(x, resultsArray) {
 function skewAnalysis(args) {
   let ret = {};
   const erf_const = 0.476936276689031;
-  ret.mu = Math.log(args.median);
-  ret.sigma_2 = 2 * (Math.log(args.mean) - ret.mu);
   ret.normFirstQuartile = args.mean - (erf_const * Math.sqrt(2 * args.variance));
   ret.normThirdQuartile = args.mean + (erf_const * Math.sqrt(2 * args.variance));
-  ret.logNormFirstQuartile = Math.exp(ret.mu - (erf_const * Math.sqrt(2 * ret.sigma_2)));
-  ret.logNormThirdQuartile = Math.exp(ret.mu + (erf_const * Math.sqrt(2 * ret.sigma_2)));
+  if (args.mean > 0 && args.median > 0) {
+    ret.mu = Math.log(args.median);
+    ret.sigma_2 = 2 * (Math.log(args.mean) - ret.mu);
+    ret.logNormFirstQuartile = Math.exp(ret.mu - (erf_const * Math.sqrt(2 * ret.sigma_2)));
+    ret.logNormThirdQuartile = Math.exp(ret.mu + (erf_const * Math.sqrt(2 * ret.sigma_2)));
+  }
   return ret;
 }
