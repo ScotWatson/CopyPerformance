@@ -82,12 +82,10 @@ class HTMLStatScaleElement extends HTMLElement {
         this.#clear();
         break;
       case "data-ticks":
-        console.log("data-ticks");
         if (newValue < 1) {
           this.#clear();
           break;
         }
-        console.log("data-ticks drawn");
         this.#drawTicks(newValue);
         break;
       case "width":
@@ -311,6 +309,20 @@ function start( [ evtWindow ] ) {
   document.body.appendChild(document.createElement("br"));
 
   testCopyCryptoRandom();
+  
+  const timedResults = document.createElement("div");
+  document.body.appendChild(timedResults);
+  function update(timeRemaining) {
+    timedResults.innerHTML = "Remaining: " + (timeRemaining / 1000) + " sec";
+  }
+  timedResults(testCopyNoRandom, 300 * 1000, update).then(function (results) {
+    timedResults.innerHTML = JSON.stringify(results) + "\n";
+    for (const category of Object.getOwnPropertyNames(results)) {
+      timedResults.innerHTML += category + "\n";
+      timedResults.innerHTML += skewAnalysis(results[category]) + "\n";
+    }
+  });
+
   let testFunctionNumber = 0;
   setInterval(function () {
     switch (testFunctionNumber) {
@@ -479,4 +491,79 @@ function testCopyMathRandom() {
     fillRandom: time2 - time1,
     copyView: time3 - time2,
   };
+}
+
+function timedResults(testFunc, timingLimit, updateFunc) {
+  const start = performance.now();
+  const end = start + timingLimit;
+  const resultsMap = new Map();
+  const firstRun = testFunc();
+  for (const category of Object.getOwnPropertyNames(firstRun)) {
+    resultsMap.add(category, new Array(0));
+  }
+  function resultsPromise() {
+    return new Promise(function (resolve, reject) {
+      const results = testFunc();
+      for (const category of Object.getOwnPropertyNames(results)) {
+        const resultsArray = resultsMap.get(category);
+        resultsArray.push(results[category]);
+      }
+      if (updateFunc) {
+        updateFunc(end - performance.now());
+      }
+      if (performance.now() < end) {
+        resultsPromise();
+      }
+    });
+  }
+  return resultsPromise().then(function () {
+    let ret = {};
+    for (const [category, resultsArray] of resultsMap) {
+      ret[category].iterations = resultsArray.length;
+      resultsArray.sort(function compareFn(a, b) {
+        if (a < b) {
+          return -1;
+        }
+        if (a > b) {
+          return 1;
+        }
+        return 0;
+      });
+      ret[category].mean = 0;
+      for (const sample of resultsArray) {
+        ret[category].mean += sample;
+      }
+      ret[category].mean /= ret[category].iterations;
+      ret[category].variance = 0;
+      for (const sample of resultsArray) {
+        ret[category].variance += (sample - ret[category].mean) ** 2;
+      }
+      ret[category].variance /= (ret[category].iterations - 1);
+      const firstQuartileIndex = (1 / 4) * (ret[category].iterations - 1) + (1 / 2);
+      ret[category].firstQuartile = interpolate(firstQuartileIndex, resultsArray);
+      const medianIndex = (1 / 2) * (ret[category].iterations - 1) + (1 / 2);
+      ret[category].median = interpolate(medianIndex, resultsArray);
+      const thirdQuartileIndex = (3 / 4) * (ret[category].iterations - 1) + (1 / 2);
+      ret[category].thirdQuartile = interpolate(thirdQuartileIndex, resultsArray);
+    }
+    return ret;
+  });
+}
+function interpolate(x, resultsArray) {
+  const x1 = Math.floor(x);
+  const x2 = x1 + 1;
+  const y1 = resultsArray[x1];
+  const y2 = resultsArray[x2];
+  return ((y2 - y1) / (x2 - x1)) * (x - x1) + y1;
+}
+function skewAnalysis(args) {
+  let ret = {};
+  const erf_const = 0.476936276689031;
+  ret.mu = Math.ln(args.median);
+  ret.sigma_2 = 2 * (Math.ln(args.mean) - ret.mu);
+  ret.normFirstQuartile = args.mean - (erf_const * Math.sqrt(2 * args.variance));
+  ret.normThirdQuartile = args.mean + (erf_const * Math.sqrt(2 * args.variance));
+  ret.logNormFirstQuartile = Math.exp(ret.mu - (erf_const * Math.sqrt(2 * ret.sigma_2)));
+  ret.logNormThirdQuartile = Math.exp(ret.mu + (erf_const * Math.sqrt(2 * ret.sigma_2)));
+  return ret;
 }
