@@ -527,19 +527,18 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
         }
       }
       for (const [category, _] of resultsMap) {
+        const batchArray = batchMap.get(category);
         const resultsArray = resultsMap.get(category);
-        let mean = 0;
-        for (const sample of resultsArray) {
-          mean += sample;
-        }
-        mean /= batchSize;
-        resultsArray.push(mean);
         const logResultsArray = logResultsMap.get(category);
+        let mean = 0;
         let logMean = 0;
-        for (const sample of resultsArray) {
+        for (const sample of batchArray) {
+          mean += sample;
           logMean += Math.log(sample);
         }
+        mean /= batchSize;
         logMean /= batchSize;
+        resultsArray.push(mean);
         logResultsArray.push(logMean);
       }
     }
@@ -573,7 +572,7 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
         ret[category].variance += (sample - ret[category].mean) ** 2;
       }
       ret[category].variance /= (ret[category].iterations - 1);
-      ret[category].variance *= Math.sqrt(batchSize);
+      ret[category].fullVariance = ret[category].variance * Math.sqrt(batchSize);
       const logResultsArray = logResultsMap.get(category);
       ret[category].mu = 0;
       for (const sample of logResultsArray) {
@@ -585,7 +584,7 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
         ret[category].sigma_2 += (sample - ret[category].mu) ** 2;
       }
       ret[category].sigma_2 /= (ret[category].iterations - 1);
-      ret[category].sigma_2 *= Math.sqrt(batchSize);
+      ret[category].fullSigma_2 = ret[category].sigma_2 * Math.sqrt(batchSize);
       const firstQuartileIndex = (1 / 4) * (ret[category].iterations - 1) + (1 / 2);
       ret[category].firstQuartile = interpolate(firstQuartileIndex, resultsArray);
       const medianIndex = (1 / 2) * (ret[category].iterations - 1) + (1 / 2);
