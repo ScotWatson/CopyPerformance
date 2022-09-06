@@ -519,7 +519,7 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
       if (updateFunc) {
         updateFunc(end - performance.now());
       }
-      for (let i = 0; i < batchSize, ++i) {
+      for (let i = 0; i < batchSize; ++i) {
         const results = testFunc();
         for (const category of Object.getOwnPropertyNames(results)) {
           const batchArray = batchMap.get(category);
