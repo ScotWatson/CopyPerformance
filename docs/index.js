@@ -310,16 +310,16 @@ function start( [ evtWindow ] ) {
 
   testCopyCryptoRandom();
   
-  const timedResults = document.createElement("div");
-  document.body.appendChild(timedResults);
+  const divTimedResults = document.createElement("div");
+  document.body.appendChild(divTimedResults);
   function update(timeRemaining) {
-    timedResults.innerHTML = "Remaining: " + (timeRemaining / 1000) + " sec";
+    divTimedResults.innerHTML = "Remaining: " + (timeRemaining / 1000) + " sec";
   }
   timedResults(testCopyNoRandom, 300 * 1000, update).then(function (results) {
-    timedResults.innerHTML = JSON.stringify(results) + "\n";
+    divTimedResults.innerHTML = JSON.stringify(results) + "\n";
     for (const category of Object.getOwnPropertyNames(results)) {
-      timedResults.innerHTML += category + "\n";
-      timedResults.innerHTML += skewAnalysis(results[category]) + "\n";
+      divTimedResults.innerHTML += category + "\n";
+      divTimedResults.innerHTML += skewAnalysis(results[category]) + "\n";
     }
   });
 
