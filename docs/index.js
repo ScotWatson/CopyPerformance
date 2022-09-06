@@ -574,6 +574,7 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
       }
       ret[category].variance /= (ret[category].iterations - 1);
       ret[category].variance *= Math.sqrt(batchSize);
+      const logResultsArray = logResultsMap.get(category);
       ret[category].mu = 0;
       for (const sample of logResultsArray) {
         ret[category].mu += sample;
