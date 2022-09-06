@@ -562,8 +562,8 @@ function interpolate(x, resultsArray) {
 function skewAnalysis(args) {
   let ret = {};
   const erf_const = 0.476936276689031;
-  ret.mu = Math.ln(args.median);
-  ret.sigma_2 = 2 * (Math.ln(args.mean) - ret.mu);
+  ret.mu = Math.log(args.median);
+  ret.sigma_2 = 2 * (Math.log(args.mean) - ret.mu);
   ret.normFirstQuartile = args.mean - (erf_const * Math.sqrt(2 * args.variance));
   ret.normThirdQuartile = args.mean + (erf_const * Math.sqrt(2 * args.variance));
   ret.logNormFirstQuartile = Math.exp(ret.mu - (erf_const * Math.sqrt(2 * ret.sigma_2)));
