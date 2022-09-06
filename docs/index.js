@@ -315,7 +315,7 @@ function start( [ evtWindow ] ) {
   function update(timeRemaining) {
     divTimedResults.innerHTML = "Remaining: " + (timeRemaining / 1000) + " sec";
   }
-  timedResults(testCopyNoRandom, 300 * 1000, update).then(function (results) {
+  timedResults(testCopyNoRandom, 5 * 1000, update).then(function (results) {
     divTimedResults.innerHTML = JSON.stringify(results) + "\n";
     for (const category of Object.getOwnPropertyNames(results)) {
       divTimedResults.innerHTML += category + "\n";
