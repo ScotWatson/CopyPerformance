@@ -502,7 +502,7 @@ function timedResults(testFunc, timingLimit, updateFunc) {
     resultsMap.set(category, new Array(0));
   }
   function resultsPromise() {
-    return new Promise(function (resolve, reject) {
+    return Promise.resolve().then(function () {
       const results = testFunc();
       for (const category of Object.getOwnPropertyNames(results)) {
         const resultsArray = resultsMap.get(category);
