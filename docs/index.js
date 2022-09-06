@@ -316,10 +316,10 @@ function start( [ evtWindow ] ) {
     divTimedResults.innerHTML = "Remaining: " + (timeRemaining / 1000) + " sec";
   }
   timedResults(testCopyNoRandom, 5 * 1000, update).then(function (results) {
-    divTimedResults.innerHTML = JSON.stringify(results) + "\n";
+    divTimedResults.innerHTML = JSON.stringify(results) + "<br>";
     for (const category of Object.getOwnPropertyNames(results)) {
-      divTimedResults.innerHTML += category + "\n";
-      divTimedResults.innerHTML += skewAnalysis(results[category]) + "\n";
+      divTimedResults.innerHTML += category + "<br>";
+      divTimedResults.innerHTML += JSON.stringify(skewAnalysis(results[category])) + "<br>";
     }
   });
 
