@@ -315,7 +315,7 @@ function start( [ evtWindow ] ) {
   function update(timeRemaining) {
     divTimedResults.innerHTML = "Remaining: " + (timeRemaining / 1000) + " sec";
   }
-  timedResults(testCopyNoRandom, 10 * 1000, update, 20).then(function (results) {
+  timedResults(testCopyNoRandom, 10 * 1000, update, 50).then(function (results) {
     divTimedResults.innerHTML = JSON.stringify(results) + "<br>";
     for (const category of Object.getOwnPropertyNames(results)) {
       const categoryResults = results[category];
@@ -503,27 +503,31 @@ function testCopyMathRandom() {
 function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
   const start = performance.now();
   const end = start + timingLimit;
+  const rawResultsMap = new Map();
   const resultsMap = new Map();
   const logResultsMap = new Map();
   const batchMap = new Map();
   const firstRun = testFunc();
   for (const category of Object.getOwnPropertyNames(firstRun)) {
+    rawResultsMap.set(category, new Array(0));
     resultsMap.set(category, new Array(0));
     logResultsMap.set(category, new Array(0));
     batchMap.set(category, new Array(batchSize));
   }
   const intervalHandle = setInterval(function () {
+    if (updateFunc) {
+      updateFunc(end - performance.now());
+    }
     const startCycle = performance.now();
-    const endCycle = start + 500;
+    const endCycle = start + 200;
     while (performance.now() < end) {
-      if (updateFunc) {
-        updateFunc(end - performance.now());
-      }
       for (let i = 0; i < batchSize; ++i) {
         const results = testFunc();
         for (const category of Object.getOwnPropertyNames(results)) {
           const batchArray = batchMap.get(category);
           batchArray[i] = results[category];
+          const resultsArray = rawResultsMap.get(category);
+          resultsArray.push(results[category]);
         }
       }
       for (const [category, _] of resultsMap) {
@@ -550,9 +554,19 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
     let ret = {};
     for (const [category, _] of resultsMap) {
       const resultsArray = resultsMap.get(category);
+      const rawResultsArray = rawResultsMap.get(category);
       ret[category] = {};
       ret[category].batches = resultsArray.length;
       ret[category].batchSize = batchSize;
+      rawResultsArray.sort(function compareFn(a, b) {
+        if (a < b) {
+          return -1;
+        }
+        if (a > b) {
+          return 1;
+        }
+        return 0;
+      });
       resultsArray.sort(function compareFn(a, b) {
         if (a < b) {
           return -1;
