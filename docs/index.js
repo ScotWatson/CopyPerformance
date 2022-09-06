@@ -566,30 +566,30 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
       for (const sample of resultsArray) {
         ret[category].mean += sample;
       }
-      ret[category].mean /= ret[category].iterations;
+      ret[category].mean /= ret[category].batches;
       ret[category].variance = 0;
       for (const sample of resultsArray) {
         ret[category].variance += (sample - ret[category].mean) ** 2;
       }
-      ret[category].variance /= (ret[category].iterations - 1);
+      ret[category].variance /= (ret[category].batches - 1);
       ret[category].fullVariance = ret[category].variance * Math.sqrt(batchSize);
       const logResultsArray = logResultsMap.get(category);
       ret[category].mu = 0;
       for (const sample of logResultsArray) {
         ret[category].mu += sample;
       }
-      ret[category].mu /= ret[category].iterations;
+      ret[category].mu /= ret[category].batches;
       ret[category].sigma_2 = 0;
       for (const sample of logResultsArray) {
         ret[category].sigma_2 += (sample - ret[category].mu) ** 2;
       }
-      ret[category].sigma_2 /= (ret[category].iterations - 1);
+      ret[category].sigma_2 /= (ret[category].batches - 1);
       ret[category].fullSigma_2 = ret[category].sigma_2 * Math.sqrt(batchSize);
-      const firstQuartileIndex = (1 / 4) * (ret[category].iterations - 1) + (1 / 2);
+      const firstQuartileIndex = (1 / 4) * (ret[category].batches - 1) + (1 / 2);
       ret[category].firstQuartile = interpolate(firstQuartileIndex, resultsArray);
-      const medianIndex = (1 / 2) * (ret[category].iterations - 1) + (1 / 2);
+      const medianIndex = (1 / 2) * (ret[category].batches - 1) + (1 / 2);
       ret[category].median = interpolate(medianIndex, resultsArray);
-      const thirdQuartileIndex = (3 / 4) * (ret[category].iterations - 1) + (1 / 2);
+      const thirdQuartileIndex = (3 / 4) * (ret[category].batches - 1) + (1 / 2);
       ret[category].thirdQuartile = interpolate(thirdQuartileIndex, resultsArray);
     }
     return ret;
