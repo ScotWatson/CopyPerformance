@@ -568,23 +568,23 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
       }
       ret[category].variance /= (ret[category].batches - 1);
       const first1Index = fractionIndex((1 / 100), ret[category].batches);
-      ret[category].first1 = interpolate(first1Index, resultsArray);
+      ret[category].first1 = interpolate(first1Index, batchResultsArray);
       const first5Index = fractionIndex((1 / 20), ret[category].batches);
-      ret[category].first5 = interpolate(first5Index, resultsArray);
+      ret[category].first5 = interpolate(first5Index, batchResultsArray);
       const first10Index = fractionIndex((1 / 10), ret[category].batches);
-      ret[category].first10 = interpolate(first10Index, resultsArray);
+      ret[category].first10 = interpolate(first10Index, batchResultsArray);
       const firstQuartileIndex = fractionIndex((1 / 4), ret[category].batches);
-      ret[category].firstQuartile = interpolate(firstQuartileIndex, resultsArray);
+      ret[category].firstQuartile = interpolate(firstQuartileIndex, batchResultsArray);
       const medianIndex = fractionIndex((1 / 2), ret[category].batches);
-      ret[category].median = interpolate(medianIndex, resultsArray);
+      ret[category].median = interpolate(medianIndex, batchResultsArray);
       const thirdQuartileIndex = fractionIndex((3 / 4), ret[category].batches);
-      ret[category].thirdQuartile = interpolate(thirdQuartileIndex, resultsArray);
+      ret[category].thirdQuartile = interpolate(thirdQuartileIndex, batchResultsArray);
       const last10Index = fractionIndex((9 / 10), ret[category].batches);
-      ret[category].last10 = interpolate(last10Index, resultsArray);
+      ret[category].last10 = interpolate(last10Index, batchResultsArray);
       const last5Index = fractionIndex((19 / 20), ret[category].batches);
-      ret[category].last5 = interpolate(last5Index, resultsArray);
+      ret[category].last5 = interpolate(last5Index, batchResultsArray);
       const last1Index = fractionIndex((99 / 100), ret[category].batches);
-      ret[category].last1 = interpolate(last1Index, resultsArray);
+      ret[category].last1 = interpolate(last1Index, batchResultsArray);
     }
     return ret;
   });
