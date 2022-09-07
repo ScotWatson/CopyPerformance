@@ -600,15 +600,22 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
       }
       ret[category].sigma_2 /= (ret[category].batches - 1);
       ret[category].fullSigma_2 = ret[category].sigma_2 * Math.sqrt(batchSize);
-      const firstQuartileIndex = (1 / 4) * (ret[category].batches - 1) + (1 / 2);
+      const first10Index = fractionIndex((1 / 10), ret[category].batches);
+      ret[category].first10 = interpolate(first10Index, resultsArray);
+      const firstQuartileIndex = fractionIndex((1 / 4), ret[category].batches);
       ret[category].firstQuartile = interpolate(firstQuartileIndex, resultsArray);
-      const medianIndex = (1 / 2) * (ret[category].batches - 1) + (1 / 2);
+      const medianIndex = fractionIndex((1 / 2), ret[category].batches);
       ret[category].median = interpolate(medianIndex, resultsArray);
-      const thirdQuartileIndex = (3 / 4) * (ret[category].batches - 1) + (1 / 2);
+      const thirdQuartileIndex = fractionIndex((3 / 4), ret[category].batches);
       ret[category].thirdQuartile = interpolate(thirdQuartileIndex, resultsArray);
+      const last10Index = fractionIndex((9 / 10), ret[category].batches);
+      ret[category].last10 = interpolate(last10Index, resultsArray);
     }
     return ret;
   });
+}
+function fractionIndex(fraction, numElements) {
+  return (fraction * (numElements - 1)) + (1 / 2);
 }
 function interpolate(x, resultsArray) {
   const x1 = Math.floor(x);
@@ -619,14 +626,17 @@ function interpolate(x, resultsArray) {
 }
 function skewAnalysis(args) {
   let ret = {};
-  const erf_const = 0.476936276689031;
-  ret.normFirstQuartile = args.mean - (erf_const * Math.sqrt(2 * args.variance));
+  const erf_const_25 = 0.476936276689031;
+  const erf_const_10 = 0.906193802436823;
+  ret.normFirst10 = args.mean - (erf_const_10 * Math.sqrt(2 * args.variance));
+  ret.normFirstQuartile = args.mean - (erf_const_25 * Math.sqrt(2 * args.variance));
   ret.normMedian = args.mean;
-  ret.normThirdQuartile = args.mean + (erf_const * Math.sqrt(2 * args.variance));
-  if (args.mean > 0 && args.median > 0) {
-    ret.logNormFirstQuartile = Math.exp(args.mu - (erf_const * Math.sqrt(2 * args.sigma_2)));
-    ret.logNormMedian = Math.exp(args.mu);
-    ret.logNormThirdQuartile = Math.exp(args.mu + (erf_const * Math.sqrt(2 * args.sigma_2)));
-  }
+  ret.normThirdQuartile = args.mean + (erf_const_25 * Math.sqrt(2 * args.variance));
+  ret.normLast10 = args.mean + (erf_const_10 * Math.sqrt(2 * args.variance));
+  ret.logNormFirst10 = Math.exp(args.mu - (erf_const_10 * Math.sqrt(2 * args.sigma_2)));
+  ret.logNormFirstQuartile = Math.exp(args.mu - (erf_const_25 * Math.sqrt(2 * args.sigma_2)));
+  ret.logNormMedian = Math.exp(args.mu);
+  ret.logNormThirdQuartile = Math.exp(args.mu + (erf_const_25 * Math.sqrt(2 * args.sigma_2)));
+  ret.logNormLast10 = Math.exp(args.mu + (erf_const_10 * Math.sqrt(2 * args.sigma_2)));
   return ret;
 }
