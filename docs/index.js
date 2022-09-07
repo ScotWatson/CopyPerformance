@@ -329,7 +329,7 @@ function start( [ evtWindow ] ) {
       }
     }
   });
-/*
+
   let testFunctionNumber = 0;
   setInterval(function () {
     switch (testFunctionNumber) {
@@ -380,7 +380,7 @@ function start( [ evtWindow ] ) {
       testFunctionNumber = 0;
     }
   }, 1000);
-*/
+
 }
 function report(testCopy, testCopyMakeViewsMean, testCopyMakeViewsVar, testCopyFillRandomMean, testCopyFillRandomVar, testCopyCopyViewMean, testCopyCopyViewVar, testCopyMakeViews, testCopyFillRandom, testCopyCopyView) {
   const start = performance.now();
@@ -504,15 +504,13 @@ function testCopyMathRandom() {
 function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
   const start = performance.now();
   const end = start + timingLimit;
-  const rawResultsMap = new Map();
   const resultsMap = new Map();
-  const logResultsMap = new Map();
+  const batchesMap = new Map();
+  const logBatchesMap = new Map();
   const batchMap = new Map();
   const firstRun = testFunc();
   for (const category of Object.getOwnPropertyNames(firstRun)) {
-    rawResultsMap.set(category, new Array(0));
     resultsMap.set(category, new Array(0));
-    logResultsMap.set(category, new Array(0));
     batchMap.set(category, new Array(batchSize));
   }
   const intervalHandle = setInterval(function () {
@@ -520,31 +518,14 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
       updateFunc(end - performance.now());
     }
     const startCycle = performance.now();
-    const endCycle = startCycle + 800;
+    const endCycle = startCycle + 400;
     while (performance.now() < endCycle) {
       for (let i = 0; i < batchSize; ++i) {
         const results = testFunc();
         for (const category of Object.getOwnPropertyNames(results)) {
-          const batchArray = batchMap.get(category);
-          batchArray[i] = results[category];
-          const resultsArray = rawResultsMap.get(category);
+          const resultsArray = resultsMap.get(category);
           resultsArray.push(results[category]);
         }
-      }
-      for (const [category, _] of resultsMap) {
-        const batchArray = batchMap.get(category);
-        const resultsArray = resultsMap.get(category);
-        const logResultsArray = logResultsMap.get(category);
-        let mean = 0;
-        let logMean = 0;
-        for (const sample of batchArray) {
-          mean += sample;
-          logMean += Math.log(sample);
-        }
-        mean /= batchSize;
-        logMean /= batchSize;
-        resultsArray.push(mean);
-        logResultsArray.push(logMean);
       }
     }
   }, 1000);
@@ -553,21 +534,10 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
   }).then(function () {
     clearInterval(intervalHandle);
     let ret = {};
-    for (const [category, _] of resultsMap) {
-      const resultsArray = resultsMap.get(category);
-      const rawResultsArray = rawResultsMap.get(category);
+    for (const [category, resultsArray] of resultsMap) {
       ret[category] = {};
       ret[category].batches = resultsArray.length;
       ret[category].batchSize = batchSize;
-      rawResultsArray.sort(function compareFn(a, b) {
-        if (a < b) {
-          return -1;
-        }
-        if (a > b) {
-          return 1;
-        }
-        return 0;
-      });
       resultsArray.sort(function compareFn(a, b) {
         if (a < b) {
           return -1;
