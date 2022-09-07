@@ -521,8 +521,8 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
       updateFunc(end - performance.now());
     }
     const startCycle = performance.now();
-    const endCycle = start + 200;
-    while (performance.now() < end) {
+    const endCycle = start + 500;
+    while (performance.now() < endCycle) {
       for (let i = 0; i < batchSize; ++i) {
         const results = testFunc();
         for (const category of Object.getOwnPropertyNames(results)) {
