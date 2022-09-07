@@ -556,6 +556,15 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
         }
         return 0;
       });
+      batchResultsArray.sort(function compareFn(a, b) {
+        if (a < b) {
+          return -1;
+        }
+        if (a > b) {
+          return 1;
+        }
+        return 0;
+      });
       ret[category].batches = (ret[category].samples / batchSize);
       ret[category].mean = 0;
       for (const sample of batchResultsArray) {
