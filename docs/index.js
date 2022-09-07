@@ -535,9 +535,18 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
     clearInterval(intervalHandle);
     let ret = {};
     for (const [category, resultsArray] of resultsMap) {
+      const batchResultsArray = new Array(resultsArray.length / batchSize);
+      const batchLogResultsArray = new Array(resultsArray.length / batchSize);
       ret[category] = {};
-      ret[category].batches = resultsArray.length;
+      ret[category].samples = resultsArray.length;
       ret[category].batchSize = batchSize;
+      for (let i = 0; i < (resultsArray.length / batchSize); ++i) {
+        batchResultsArray[i] = 0;
+        for (let j = 0; j < batchSize; ++j) {
+          batchResultsArray[i] += resultsArray[i + j];
+        }
+        batchResultsArray[i] /= batchSize;
+      }
       resultsArray.sort(function compareFn(a, b) {
         if (a < b) {
           return -1;
@@ -547,13 +556,14 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
         }
         return 0;
       });
+      ret[category].batches = (ret[category].samples / batchSize);
       ret[category].mean = 0;
-      for (const sample of resultsArray) {
+      for (const sample of batchResultsArray) {
         ret[category].mean += sample;
       }
       ret[category].mean /= ret[category].batches;
       ret[category].variance = 0;
-      for (const sample of resultsArray) {
+      for (const sample of batchResultsArray) {
         ret[category].variance += (sample - ret[category].mean) ** 2;
       }
       ret[category].variance /= (ret[category].batches - 1);
