@@ -313,7 +313,6 @@ function start( [ evtWindow ] ) {
   const divTimedResults = document.createElement("div");
   document.body.appendChild(divTimedResults);
   function update(timeRemaining) {
-    console.log(timeRemaining);
     divTimedResults.innerHTML = "Remaining: " + (timeRemaining / 1000) + " sec";
   }
   timedResults(testCopyNoRandom, 10 * 1000, update, 10).then(function (results) {
@@ -521,7 +520,7 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
       updateFunc(end - performance.now());
     }
     const startCycle = performance.now();
-    const endCycle = start + 500;
+    const endCycle = startCycle + 500;
     while (performance.now() < endCycle) {
       for (let i = 0; i < batchSize; ++i) {
         const results = testFunc();
