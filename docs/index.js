@@ -600,6 +600,10 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
       }
       ret[category].sigma_2 /= (ret[category].batches - 1);
       ret[category].fullSigma_2 = ret[category].sigma_2 * Math.sqrt(batchSize);
+      const first1Index = fractionIndex((1 / 100), ret[category].batches);
+      ret[category].first1 = interpolate(first1Index, resultsArray);
+      const first5Index = fractionIndex((1 / 20), ret[category].batches);
+      ret[category].first5 = interpolate(first5Index, resultsArray);
       const first10Index = fractionIndex((1 / 10), ret[category].batches);
       ret[category].first10 = interpolate(first10Index, resultsArray);
       const firstQuartileIndex = fractionIndex((1 / 4), ret[category].batches);
@@ -610,6 +614,10 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
       ret[category].thirdQuartile = interpolate(thirdQuartileIndex, resultsArray);
       const last10Index = fractionIndex((9 / 10), ret[category].batches);
       ret[category].last10 = interpolate(last10Index, resultsArray);
+      const last5Index = fractionIndex((19 / 20), ret[category].batches);
+      ret[category].last5 = interpolate(last5Index, resultsArray);
+      const last1Index = fractionIndex((99 / 100), ret[category].batches);
+      ret[category].last1 = interpolate(last1Index, resultsArray);
     }
     return ret;
   });
