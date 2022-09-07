@@ -313,9 +313,10 @@ function start( [ evtWindow ] ) {
   const divTimedResults = document.createElement("div");
   document.body.appendChild(divTimedResults);
   function update(timeRemaining) {
+    console.log(timeRemaining);
     divTimedResults.innerHTML = "Remaining: " + (timeRemaining / 1000) + " sec";
   }
-  timedResults(testCopyNoRandom, 10 * 1000, update, 50).then(function (results) {
+  timedResults(testCopyNoRandom, 10 * 1000, update, 10).then(function (results) {
     divTimedResults.innerHTML = JSON.stringify(results) + "<br>";
     for (const category of Object.getOwnPropertyNames(results)) {
       const categoryResults = results[category];
@@ -628,15 +629,20 @@ function skewAnalysis(args) {
   let ret = {};
   const erf_const_25 = 0.476936276689031;
   const erf_const_10 = 0.906193802436823;
+  const erf_const_5 = 1.16308715367668;
+  ret.normFirst5 = args.mean - (erf_const_5 * Math.sqrt(2 * args.variance));
   ret.normFirst10 = args.mean - (erf_const_10 * Math.sqrt(2 * args.variance));
   ret.normFirstQuartile = args.mean - (erf_const_25 * Math.sqrt(2 * args.variance));
   ret.normMedian = args.mean;
   ret.normThirdQuartile = args.mean + (erf_const_25 * Math.sqrt(2 * args.variance));
   ret.normLast10 = args.mean + (erf_const_10 * Math.sqrt(2 * args.variance));
+  ret.normLast5 = args.mean + (erf_const_5 * Math.sqrt(2 * args.variance));
+  ret.logNormFirst5 = Math.exp(args.mu - (erf_const_5 * Math.sqrt(2 * args.sigma_2)));
   ret.logNormFirst10 = Math.exp(args.mu - (erf_const_10 * Math.sqrt(2 * args.sigma_2)));
   ret.logNormFirstQuartile = Math.exp(args.mu - (erf_const_25 * Math.sqrt(2 * args.sigma_2)));
   ret.logNormMedian = Math.exp(args.mu);
   ret.logNormThirdQuartile = Math.exp(args.mu + (erf_const_25 * Math.sqrt(2 * args.sigma_2)));
   ret.logNormLast10 = Math.exp(args.mu + (erf_const_10 * Math.sqrt(2 * args.sigma_2)));
+  ret.logNormLast5 = Math.exp(args.mu + (erf_const_5 * Math.sqrt(2 * args.sigma_2)));
   return ret;
 }
