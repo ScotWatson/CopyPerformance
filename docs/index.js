@@ -557,19 +557,6 @@ function timedResults(testFunc, timingLimit, updateFunc, batchSize) {
         ret[category].variance += (sample - ret[category].mean) ** 2;
       }
       ret[category].variance /= (ret[category].batches - 1);
-      ret[category].fullVariance = ret[category].variance * Math.sqrt(batchSize);
-      const logResultsArray = logResultsMap.get(category);
-      ret[category].mu = 0;
-      for (const sample of logResultsArray) {
-        ret[category].mu += sample;
-      }
-      ret[category].mu /= ret[category].batches;
-      ret[category].sigma_2 = 0;
-      for (const sample of logResultsArray) {
-        ret[category].sigma_2 += (sample - ret[category].mu) ** 2;
-      }
-      ret[category].sigma_2 /= (ret[category].batches - 1);
-      ret[category].fullSigma_2 = ret[category].sigma_2 * Math.sqrt(batchSize);
       const first1Index = fractionIndex((1 / 100), ret[category].batches);
       ret[category].first1 = interpolate(first1Index, resultsArray);
       const first5Index = fractionIndex((1 / 20), ret[category].batches);
