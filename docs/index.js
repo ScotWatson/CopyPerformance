@@ -329,6 +329,7 @@ function start( [ evtWindow ] ) {
       }
     }
   });
+  return;
 
   let testFunctionNumber = 0;
   setInterval(function () {
